@@ -31,7 +31,6 @@ function initialize() {
 			mainWindow.maximize()
 			require('devtron').install()
 		}
-
 	}
 
 	app.on('ready', function() {

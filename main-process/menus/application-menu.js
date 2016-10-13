@@ -1,5 +1,7 @@
 const electron = require('electron')
 const browserWindow = electron.BrowserWindow
+const dialog = electron.dialog
+const ipc = electron.ipcMain
 const Menu = electron.Menu
 const app = electron.app
 
@@ -9,11 +11,20 @@ let template = [
 		submenu: [
 			{
 				label: 'New',
-				role: 'New'
+				accelerator: 'CmdOrCtrl+N',
+				role: 'New',
 			}, 
 			{
 				label: 'Open',
-				role: 'Open'
+				accelerator: 'CmdOrCtrl+O',
+				role: 'Open',
+				click: function(item, focusedWindow) {
+					dialog.showOpenDialog({
+						properties: ['openFile']
+					}, function (files) {
+						focusedWindow.webContents.send('selected-file', {msg: files})
+					})
+				}
 			},
 			{
 				label: 'Close',
